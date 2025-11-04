@@ -1,0 +1,40 @@
+name: SonarCloud Analysis
+
+on:
+  # Dispara el análisis cuando hagas push a 'developer'
+  push:
+    branches:
+      - developer
+  # También cuando se cree un Pull Request
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # Sonar necesita el historial completo para funcionar bien
+          fetch-depth: 0  
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          # Asegúrate que esta versión coincida con tu entorno
+          python-version: '3.11.9' 
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # El script asume que requirements.txt está en la raíz
+          pip install -r requirements.txt
+          
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          # Este token lo creamos en el Paso 4
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # Este es un token automático de GitHub, no necesitas crearlo
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
