@@ -7,7 +7,7 @@ jupyter
 
 # Data Formats
 pyarrow         # Necesario para leer y escribir .parquet
-python-joblib   # Necesario para guardar modelos
+joblib   # Necesario para guardar modelos
 
 # API
 fastapi
