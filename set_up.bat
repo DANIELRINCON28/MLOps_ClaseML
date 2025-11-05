@@ -22,7 +22,7 @@ echo Buscando código del proyecto en config.json...
 setlocal EnableDelayedExpansion
 
 REM Cambiar al directorio donde está config.json
-cd mlops_pipeline\src
+cd PROYECTO_ML
 
 REM Leer línea que contiene "project_name"
 for /f "usebackq tokens=2 delims=:" %%A in (`findstr "project_code" config.json`) do (

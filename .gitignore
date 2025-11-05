@@ -1,11 +1,19 @@
 # Entorno virtual
-venv/
-.venv/
+MLOPS_FINAL-venv/
+*-venv/
 
-# Python
+# Carpetas de datos y artefactos
+/data/
+/artifacts/
+
+# Archivos de datos brutos
+*.csv
+*.parquet
+
+# Excepción para tu archivo de estructura (si existe)
+!Base_datos.csv
+
+# Archivos de Jupyter/Python
+.ipynb_checkpoints/
 __pycache__/
 *.pyc
-
-# Jupyter
-.ipynb_checkpoints/
-
