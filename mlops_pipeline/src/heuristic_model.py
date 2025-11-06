@@ -1,1 +1,0 @@
-# Modelo heurístico base

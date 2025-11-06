@@ -21,9 +21,6 @@ echo Buscando código del proyecto en config.json...
 @echo off
 setlocal EnableDelayedExpansion
 
-REM Cambiar al directorio donde está config.json
-cd mlops_pipeline\src
-
 REM Leer línea que contiene "project_name"
 for /f "usebackq tokens=2 delims=:" %%A in (`findstr "project_code" config.json`) do (
     set "line=%%A"
@@ -31,10 +28,6 @@ for /f "usebackq tokens=2 delims=:" %%A in (`findstr "project_code" config.json`
     set "line=!line:"=!"
     set "project_code=!line:~1!"
 )
-
-REM Volver al directorio raíz
-cd ..\..
-
 echo Creando nuevo ambiente virtual: %project_code%-venv
 py -m venv %project_code%-venv
 

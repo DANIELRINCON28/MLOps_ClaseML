@@ -28,8 +28,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # El script asume que requeriments.txt está en la raíz
-          pip install -r requeriments.txt
+          # El script asume que requirements.txt está en la raíz
+          pip install -r requirements.txt
           
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@master
