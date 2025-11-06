@@ -41,65 +41,301 @@ COLORS = {
     'light': '#F8F9FA'         # Gris claro
 }
 
-# CSS personalizado con colores institucionales
+# CSS personalizado con colores institucionales mejorados
 st.markdown("""
     <style>
+    /* ========== ESTILOS GLOBALES ========== */
     .main {
-        background-color: #F8F9FA;
+        background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
     }
     .stApp {
-        background-color: #F8F9FA;
+        background: linear-gradient(135deg, #F8F9FA 0%, #E9ECEF 100%);
     }
+    
+    /* ========== TIPOGRAFÍA ========== */
     h1 {
-        color: #005F9E;
-        font-family: 'Helvetica Neue', sans-serif;
-        font-weight: bold;
+        color: #005F9E !important;
+        font-family: 'Segoe UI', 'Helvetica Neue', sans-serif !important;
+        font-weight: 700 !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        padding: 10px 0;
     }
     h2 {
-        color: #005F9E;
-        font-family: 'Helvetica Neue', sans-serif;
+        color: #004A7C !important;
+        font-family: 'Segoe UI', 'Helvetica Neue', sans-serif !important;
+        font-weight: 600 !important;
+        padding: 8px 0;
+        border-bottom: 3px solid #FF8C00;
+        display: inline-block;
     }
     h3 {
-        color: #FF8C00;
-        font-family: 'Helvetica Neue', sans-serif;
+        color: #FF8C00 !important;
+        font-family: 'Segoe UI', 'Helvetica Neue', sans-serif !important;
+        font-weight: 600 !important;
     }
+    h4 {
+        color: #343A40 !important;
+        font-weight: 600 !important;
+    }
+    
+    /* ========== TEXTO Y PÁRRAFOS ========== */
+    p, span, div {
+        color: #343A40 !important;
+    }
+    
+    .stMarkdown {
+        color: #343A40 !important;
+    }
+    
+    /* ========== TARJETAS DE MÉTRICAS ========== */
     .metric-card {
-        background-color: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        border-left: 4px solid #005F9E;
+        background: linear-gradient(135deg, #FFFFFF 0%, #F8F9FA 100%);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border-left: 5px solid #005F9E;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    .metric-card h4 {
+        margin: 0 !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+    }
+    .metric-card h2 {
+        margin: 15px 0 !important;
+        font-size: 42px !important;
+        font-weight: 700 !important;
+        border: none !important;
+    }
+    .metric-card p {
+        margin: 0 !important;
+        font-size: 13px !important;
+        opacity: 0.8;
+    }
+    
+    /* ========== ALERTAS MEJORADAS ========== */
     .alert-critical {
-        background-color: #FFE5E5;
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid #DC3545;
-        margin: 10px 0;
+        background: linear-gradient(135deg, #FFE5E5 0%, #FFD5D5 100%);
+        color: #721C24 !important;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 6px solid #DC3545;
+        margin: 15px 0;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+        font-weight: 500;
     }
+    .alert-critical strong {
+        color: #DC3545 !important;
+        font-weight: 700 !important;
+    }
+    
     .alert-warning {
-        background-color: #FFF9E5;
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid #FFC107;
-        margin: 10px 0;
+        background: linear-gradient(135deg, #FFF9E5 0%, #FFF3D5 100%);
+        color: #856404 !important;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 6px solid #FFC107;
+        margin: 15px 0;
+        box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+        font-weight: 500;
     }
+    .alert-warning strong {
+        color: #FF8C00 !important;
+        font-weight: 700 !important;
+    }
+    
     .alert-success {
-        background-color: #E5F9E5;
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 4px solid #28A745;
-        margin: 10px 0;
+        background: linear-gradient(135deg, #E5F9E5 0%, #D5F4D5 100%);
+        color: #155724 !important;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 6px solid #28A745;
+        margin: 15px 0;
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+        font-weight: 500;
     }
+    .alert-success strong {
+        color: #28A745 !important;
+        font-weight: 700 !important;
+    }
+    
+    .alert-info {
+        background: linear-gradient(135deg, #E5F3FF 0%, #D5EBFF 100%);
+        color: #004085 !important;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 6px solid #17A2B8;
+        margin: 15px 0;
+        box-shadow: 0 4px 12px rgba(23, 162, 184, 0.2);
+        font-weight: 500;
+    }
+    
+    /* ========== BOTONES MEJORADOS ========== */
     .stButton>button {
-        background-color: #005F9E;
-        color: white;
-        border-radius: 8px;
-        font-weight: bold;
+        background: linear-gradient(135deg, #005F9E 0%, #004A7C 100%);
+        color: white !important;
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 12px 24px;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,95,158,0.3);
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 14px;
     }
     .stButton>button:hover {
-        background-color: #FF8C00;
-        color: white;
+        background: linear-gradient(135deg, #FF8C00 0%, #E67E00 100%);
+        color: white !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255,140,0,0.4);
+    }
+    .stButton>button:active {
+        transform: translateY(0px);
+    }
+    
+    /* Botones primarios (seleccionados) */
+    .stButton>button[kind="primary"] {
+        background: linear-gradient(135deg, #FF8C00 0%, #E67E00 100%);
+        box-shadow: 0 4px 15px rgba(255,140,0,0.4);
+    }
+    
+    /* ========== SIDEBAR MEJORADO ========== */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #FFFFFF 0%, #F8F9FA 100%);
+        border-right: 3px solid #005F9E;
+        box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+    }
+    [data-testid="stSidebar"] h3 {
+        color: #005F9E !important;
+        border-bottom: 2px solid #FF8C00;
+        padding-bottom: 8px;
+    }
+    
+    /* ========== DATAFRAMES Y TABLAS ========== */
+    .dataframe {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .dataframe th {
+        background: linear-gradient(135deg, #005F9E 0%, #004A7C 100%) !important;
+        color: white !important;
+        font-weight: 600 !important;
+        padding: 12px !important;
+        text-align: left !important;
+    }
+    .dataframe td {
+        background-color: white !important;
+        color: #343A40 !important;
+        padding: 10px !important;
+        border-bottom: 1px solid #DEE2E6 !important;
+    }
+    .dataframe tr:hover {
+        background-color: #F8F9FA !important;
+    }
+    
+    /* ========== PESTAÑAS (TABS) ========== */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background-color: transparent;
+    }
+    .stTabs [data-baseweb="tab"] {
+        background-color: white;
+        border-radius: 8px 8px 0 0;
+        color: #343A40 !important;
+        font-weight: 600;
+        padding: 12px 24px;
+        border: 2px solid #DEE2E6;
+        border-bottom: none;
+    }
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #005F9E 0%, #004A7C 100%);
+        color: white !important;
+        border-color: #005F9E;
+    }
+    
+    /* ========== SELECTBOX Y MULTISELECT ========== */
+    .stSelectbox label, .stMultiSelect label {
+        color: #343A40 !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+    }
+    
+    /* ========== MENSAJES DE STREAMLIT ========== */
+    .stAlert {
+        border-radius: 10px;
+        border-width: 2px;
+        font-weight: 500;
+    }
+    
+    /* Info messages */
+    .stAlert[data-baseweb="notification"] > div:first-child {
+        background-color: #E5F3FF;
+        color: #004085 !important;
+        border-left: 5px solid #17A2B8;
+    }
+    
+    /* ========== MÉTRICAS DE STREAMLIT ========== */
+    [data-testid="stMetricValue"] {
+        font-size: 32px !important;
+        color: #005F9E !important;
+        font-weight: 700 !important;
+    }
+    [data-testid="stMetricLabel"] {
+        color: #343A40 !important;
+        font-weight: 600 !important;
+    }
+    [data-testid="stMetricDelta"] {
+        font-weight: 600 !important;
+    }
+    
+    /* ========== EXPANDER ========== */
+    .streamlit-expanderHeader {
+        background-color: white !important;
+        border-radius: 8px;
+        color: #005F9E !important;
+        font-weight: 600 !important;
+    }
+    
+    /* ========== DIVISORES ========== */
+    hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, #005F9E 50%, transparent 100%);
+        margin: 30px 0;
+    }
+    
+    /* ========== SCROLLBAR PERSONALIZADO ========== */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #F8F9FA;
+        border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #005F9E 0%, #004A7C 100%);
+        border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #FF8C00 0%, #E67E00 100%);
+    }
+    
+    /* ========== ANIMACIONES ========== */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .main > div {
+        animation: fadeIn 0.5s ease-out;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -408,28 +644,72 @@ def create_predictions_chart(predictions_df):
 def main():
     """Función principal de la aplicación"""
     
-    # Header con logo
-    col1, col2, col3 = st.columns([1, 3, 1])
-    
-    with col2:
-        st.markdown("""
+    # Header mejorado con banner
+    st.markdown("""
+    <div style='background: linear-gradient(135deg, #005F9E 0%, #004A7C 100%); 
+                padding: 30px 20px; 
+                border-radius: 15px; 
+                margin-bottom: 30px;
+                box-shadow: 0 8px 25px rgba(0,95,158,0.3);'>
         <div style='text-align: center;'>
-            <h1>🔍 Sistema de Monitoreo de Data Drift</h1>
-            <h3 style='color: #FF8C00;'>Pipeline MLOps - Detección de Fraude en Transacciones</h3>
-            <p style='color: #005F9E; font-weight: bold;'>DANIEL ALEJANDRO RINCON VALENCIA - Universidad Católica Luis Amigó</p>
+            <h1 style='color: white !important; 
+                       font-size: 42px; 
+                       margin: 0; 
+                       text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+                       font-weight: 800;'>
+                🔍 Sistema de Monitoreo de Data Drift
+            </h1>
+            <h3 style='color: #FFD700 !important; 
+                       margin: 15px 0; 
+                       font-size: 24px;
+                       font-weight: 600;'>
+                Pipeline MLOps - Detección de Fraude en Transacciones
+            </h3>
+            <div style='background: rgba(255,255,255,0.1); 
+                        padding: 12px 24px; 
+                        border-radius: 25px; 
+                        display: inline-block;
+                        margin-top: 10px;'>
+                <p style='color: white !important; 
+                          font-weight: 700; 
+                          margin: 0;
+                          font-size: 16px;
+                          letter-spacing: 0.5px;'>
+                    👨‍💻 DANIEL ALEJANDRO RINCON VALENCIA | 🎓 Universidad Católica Luis Amigó
+                </p>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
     
-    st.markdown("---")
-    
-    # Sidebar
+    # Sidebar mejorado
     with st.sidebar:
+        # Logo con efecto
+        st.markdown("""
+        <div style='background: white; 
+                    padding: 15px; 
+                    border-radius: 12px; 
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    margin-bottom: 20px;'>
+        """, unsafe_allow_html=True)
+        
         st.image("https://www.ucatolicaluisamigo.edu.co/wp-content/uploads/2023/02/logo-universidad-catolica-luis-amigo.png", 
                  use_container_width=True)
         
-        st.markdown("### 📊 Navegación")
+        st.markdown("</div>", unsafe_allow_html=True)
         
-        st.write("Selecciona una sección:")
+        st.markdown("""
+        <h3 style='color: #005F9E !important; 
+                   font-weight: 700; 
+                   text-align: center;
+                   border-bottom: 3px solid #FF8C00;
+                   padding-bottom: 10px;
+                   margin-bottom: 20px;'>
+            📊 Navegación
+        </h3>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("<p style='color: #343A40 !important; font-weight: 600; margin-bottom: 15px;'>Selecciona una sección:</p>", unsafe_allow_html=True)
         
         # Usar session_state para mantener la página seleccionada
         if 'current_page' not in st.session_state:
@@ -478,22 +758,70 @@ def main():
         st.markdown("---")
         
         st.markdown("""
-        ### ℹ️ Información
+        <div style='background: linear-gradient(135deg, #E5F3FF 0%, #D5EBFF 100%); 
+                    padding: 20px; 
+                    border-radius: 12px;
+                    border-left: 5px solid #005F9E;
+                    box-shadow: 0 4px 12px rgba(0,95,158,0.2);'>
+            <h3 style='color: #005F9E !important; 
+                       margin-top: 0;
+                       font-size: 18px;
+                       font-weight: 700;'>
+                ℹ️ Guía de Métricas
+            </h3>
+            <div style='margin: 15px 0;'>
+                <p style='color: #343A40 !important; 
+                          font-weight: 600; 
+                          margin: 8px 0;
+                          font-size: 14px;'>
+                    <span style='color: #28A745; font-size: 18px;'>🟢</span> 
+                    <strong>Bajo:</strong> &lt; 0.1
+                </p>
+                <p style='color: #343A40 !important; 
+                          font-weight: 600; 
+                          margin: 8px 0;
+                          font-size: 14px;'>
+                    <span style='color: #FFC107; font-size: 18px;'>🟡</span> 
+                    <strong>Medio:</strong> 0.1 - 0.2
+                </p>
+                <p style='color: #343A40 !important; 
+                          font-weight: 600; 
+                          margin: 8px 0;
+                          font-size: 14px;'>
+                    <span style='color: #DC3545; font-size: 18px;'>🔴</span> 
+                    <strong>Alto:</strong> &gt; 0.2
+                </p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
         
-        **Métricas de Drift:**
-        - 🟢 Bajo: < 0.1
-        - 🟡 Medio: 0.1 - 0.2
-        - 🔴 Alto: > 0.2
-        
-        **Última actualización:**
-        """)
+        st.markdown("<br>", unsafe_allow_html=True)
         
         summary = load_summary()
         if summary:
             timestamp = summary.get('timestamp', 'N/A')
-            st.info(f"📅 {timestamp}")
+            st.markdown(f"""
+            <div style='background: linear-gradient(135deg, #E5F9E5 0%, #D5F4D5 100%); 
+                        padding: 15px; 
+                        border-radius: 10px;
+                        border-left: 5px solid #28A745;
+                        text-align: center;'>
+                <p style='color: #155724 !important; 
+                          font-weight: 700; 
+                          margin: 0;
+                          font-size: 13px;'>
+                    📅 ÚLTIMA ACTUALIZACIÓN
+                </p>
+                <p style='color: #28A745 !important; 
+                          font-weight: 600; 
+                          margin: 8px 0 0 0;
+                          font-size: 14px;'>
+                    {timestamp}
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
         else:
-            st.warning("No hay datos disponibles")
+            st.warning("⚠️ No hay datos disponibles")
     
     # Cargar datos
     drift_df = load_drift_results()
@@ -518,19 +846,20 @@ def main():
             total_vars = summary.get('total_variables', 0) if summary else 0
             st.markdown(f"""
             <div class='metric-card'>
-                <h4 style='color: {COLORS["primary"]}; margin: 0;'>Total Variables</h4>
-                <h2 style='color: {COLORS["dark"]}; margin: 10px 0;'>{total_vars}</h2>
-                <p style='margin: 0; color: #666;'>Monitoreadas</p>
+                <h4 style='color: {COLORS["primary"]}; margin: 0; font-weight: 700;'>TOTAL VARIABLES</h4>
+                <h2 style='color: {COLORS["primary"]}; margin: 15px 0; font-size: 48px; font-weight: 700;'>{total_vars}</h2>
+                <p style='margin: 0; color: #343A40; font-weight: 600; font-size: 14px;'>📊 Monitoreadas</p>
             </div>
             """, unsafe_allow_html=True)
         
         with col2:
             drift_detected = summary.get('drift_detected', 0) if summary else 0
+            drift_color = COLORS["danger"] if drift_detected > 0 else COLORS["success"]
             st.markdown(f"""
             <div class='metric-card'>
-                <h4 style='color: {COLORS["warning"]}; margin: 0;'>Variables con Drift</h4>
-                <h2 style='color: {COLORS["dark"]}; margin: 10px 0;'>{drift_detected}</h2>
-                <p style='margin: 0; color: #666;'>Detectadas</p>
+                <h4 style='color: {COLORS["warning"]}; margin: 0; font-weight: 700;'>VARIABLES CON DRIFT</h4>
+                <h2 style='color: {drift_color}; margin: 15px 0; font-size: 48px; font-weight: 700;'>{drift_detected}</h2>
+                <p style='margin: 0; color: #343A40; font-weight: 600; font-size: 14px;'>⚡ Detectadas</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -538,9 +867,9 @@ def main():
             high_severity = summary.get('high_severity', 0) if summary else 0
             st.markdown(f"""
             <div class='metric-card'>
-                <h4 style='color: {COLORS["danger"]}; margin: 0;'>Severidad Alta</h4>
-                <h2 style='color: {COLORS["danger"]}; margin: 10px 0;'>{high_severity}</h2>
-                <p style='margin: 0; color: #666;'>⚠️ Crítico</p>
+                <h4 style='color: {COLORS["danger"]}; margin: 0; font-weight: 700;'>SEVERIDAD ALTA</h4>
+                <h2 style='color: {COLORS["danger"]}; margin: 15px 0; font-size: 48px; font-weight: 700;'>{high_severity}</h2>
+                <p style='margin: 0; color: #343A40; font-weight: 600; font-size: 14px;'>🚨 Críticas</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -548,9 +877,9 @@ def main():
             fraud_rate = summary.get('predictions', {}).get('fraud_rate', 0) if summary else 0
             st.markdown(f"""
             <div class='metric-card'>
-                <h4 style='color: {COLORS["info"]}; margin: 0;'>Tasa de Fraude</h4>
-                <h2 style='color: {COLORS["dark"]}; margin: 10px 0;'>{fraud_rate:.2f}%</h2>
-                <p style='margin: 0; color: #666;'>Detectada</p>
+                <h4 style='color: {COLORS["info"]}; margin: 0; font-weight: 700;'>TASA DE FRAUDE</h4>
+                <h2 style='color: {COLORS["secondary"]}; margin: 15px 0; font-size: 48px; font-weight: 700;'>{fraud_rate:.2f}%</h2>
+                <p style='margin: 0; color: #343A40; font-weight: 600; font-size: 14px;'>🎯 Detectada</p>
             </div>
             """, unsafe_allow_html=True)
         
@@ -681,37 +1010,37 @@ def main():
                 if level == 'CRÍTICO':
                     st.markdown(f"""
                     <div class='alert-critical'>
-                        <h3>🚨 {message}</h3>
-                        <p><strong>Recomendación:</strong> {recommendation}</p>
+                        <h3 style='color: #DC3545 !important; margin-top: 0; font-size: 20px;'>🚨 {message}</h3>
+                        <p style='color: #721C24 !important; margin-bottom: 0; font-size: 15px;'><strong style='color: #DC3545 !important;'>Recomendación:</strong> {recommendation}</p>
                     </div>
                     """, unsafe_allow_html=True)
                     
                     # Mostrar detalles
                     if 'details' in alert:
-                        with st.expander("Ver detalles"):
+                        with st.expander("🔍 Ver detalles"):
                             st.json(alert['details'])
                 
                 elif level == 'ADVERTENCIA':
                     st.markdown(f"""
                     <div class='alert-warning'>
-                        <h3>⚠️ {message}</h3>
-                        <p><strong>Recomendación:</strong> {recommendation}</p>
+                        <h3 style='color: #FF8C00 !important; margin-top: 0; font-size: 20px;'>⚠️ {message}</h3>
+                        <p style='color: #856404 !important; margin-bottom: 0; font-size: 15px;'><strong style='color: #FF8C00 !important;'>Recomendación:</strong> {recommendation}</p>
                     </div>
                     """, unsafe_allow_html=True)
                     
                     if 'variables' in alert:
-                        with st.expander("Variables afectadas"):
+                        with st.expander("📋 Variables afectadas"):
                             st.write(", ".join(alert['variables']))
                 
                 else:
                     st.markdown(f"""
                     <div class='alert-success'>
-                        <h3>ℹ️ {message}</h3>
-                        <p><strong>Recomendación:</strong> {recommendation}</p>
+                        <h3 style='color: #28A745 !important; margin-top: 0; font-size: 20px;'>✅ {message}</h3>
+                        <p style='color: #155724 !important; margin-bottom: 0; font-size: 15px;'><strong style='color: #28A745 !important;'>Recomendación:</strong> {recommendation}</p>
                     </div>
                     """, unsafe_allow_html=True)
         else:
-            st.info("No hay alertas disponibles")
+            st.info("✨ No hay alertas disponibles - El sistema está operando normalmente")
     
     # PÁGINA: Predicciones
     elif page == "Predicciones del Modelo":
