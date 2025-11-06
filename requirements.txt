@@ -1,15 +1,20 @@
+# Core
 pandas
 numpy
 scikit-learn
-matplotlib
-seaborn
+ipykernel
 jupyter
-ipykernel  # <-- Requerido por setup.bat
 
-# Para Fase 4 (API)
+# Data Formats
+pyarrow         # Necesario para leer y escribir .parquet
+joblib   # Necesario para guardar modelos
+
+# API
 fastapi
 uvicorn[standard]
 
-# Para Fase 5 (Monitoring)
+# Dashboard
 streamlit
-scipy
+
+# Testing & Quality
+pytest
