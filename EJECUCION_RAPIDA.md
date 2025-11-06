@@ -17,10 +17,16 @@ python run_mlops.py --dashboard
 
 **¿Qué hace este comando?**
 1. ✅ Verifica si los datos están procesados (si no, ejecuta feature engineering)
-2. ✅ Entrena el modelo XGBoost con SMOTE
-3. ✅ Realiza monitoreo de drift en 32 variables
-4. ✅ Genera predicciones y alertas
-5. ✅ (Con --dashboard) Abre el dashboard de Streamlit automáticamente
+2. ✅ Entrena **5 MODELOS DIFERENTES**:
+   - Logistic Regression
+   - Random Forest
+   - XGBoost  
+   - LightGBM
+   - Gradient Boosting
+3. ✅ Selecciona automáticamente el mejor modelo basado en ROC-AUC
+4. ✅ Realiza monitoreo de drift en 32 variables
+5. ✅ Genera predicciones y alertas
+6. ✅ (Con --dashboard) Abre el dashboard de Streamlit automáticamente
 
 ### Opción 2: Usando el archivo .bat
 
@@ -32,11 +38,27 @@ Este script activa el ambiente virtual automáticamente y ejecuta todo el proces
 
 ## 📋 Qué hace cada comando
 
-| Comando | Descripción |
-|---------|-------------|
-| `ejecutar_mlops.bat` | Ejecuta todo el pipeline con menú interactivo |
-| `python run_mlops.py` | Ejecuta todo el pipeline (solo procesamiento) |
-| `python run_mlops.py --dashboard` | Ejecuta pipeline + abre dashboard |
+| Comando | Descripción | Modelos | Tiempo aprox. |
+|---------|-------------|---------|---------------|
+| `python run_mlops.py` | Pipeline completo (sin dashboard) | 5 modelos | ~5-8 minutos |
+| `python run_mlops.py --dashboard` | Pipeline + Dashboard | 5 modelos | ~5-8 min + dashboard |
+| `ejecutar_mlops.bat` | Pipeline con menú interactivo | 5 modelos | ~5-8 minutos |
+
+### 🤖 Modelos Entrenados
+
+El pipeline entrena y compara automáticamente 5 modelos de Machine Learning:
+
+1. **Logistic Regression** - Modelo lineal base, rápido y simple
+2. **Random Forest** - Ensemble de 100 árboles de decisión
+3. **XGBoost** - Gradient Boosting optimizado (200 estimadores)
+4. **LightGBM** - Gradient Boosting ligero y eficiente (150 estimadores)
+5. **Gradient Boosting** - Gradient Boosting clásico de scikit-learn
+
+Al finalizar, el sistema selecciona automáticamente el mejor modelo según ROC-AUC y genera:
+- Tabla comparativa de métricas
+- Gráficos de comparación
+- Matriz de confusión del mejor modelo
+- Análisis de eficiencia (velocidad vs performance)
 
 ## 📊 Archivos generados
 
@@ -44,16 +66,20 @@ Después de ejecutar, encontrarás:
 
 ```
 ├── models/
-│   ├── xgboost_model.pkl          # Modelo entrenado
-│   └── model_metrics.pkl           # Métricas del modelo
+│   ├── best_model.pkl                  # Mejor modelo seleccionado
+│   ├── best_model_metadata.json        # Metadata del mejor modelo
+│   └── xgboost_model.pkl              # Modelo XGBoost específico
 ├── data/processed/
-│   ├── X_train.pkl                 # Datos de entrenamiento
-│   ├── X_test.pkl                  # Datos de prueba
-│   └── preprocessor.pkl            # Preprocesador
-└── outputs/monitoring/
-    ├── drift_results_*.csv         # Resultados de drift
-    ├── predictions_*.csv           # Predicciones
-    └── alerts_*.json               # Alertas generadas
+│   ├── X_train.pkl                     # Datos de entrenamiento
+│   ├── X_test.pkl                      # Datos de prueba
+│   └── preprocessor.pkl                # Preprocesador
+├── outputs/
+│   ├── model_comparison.csv            # Comparación de todos los modelos
+│   ├── all_models_results.json         # Resultados detallados
+│   └── monitoring/
+│       ├── drift_results_*.csv         # Resultados de drift
+│       ├── predictions_*.csv           # Predicciones
+│       └── alerts_*.json               # Alertas generadas
 ```
 
 ## ⚡ Atajos rápidos
@@ -74,6 +100,14 @@ python model_monitoring.py
 ```bash
 streamlit run app_monitoring.py
 ```
+
+### Ver comparación de modelos
+El dashboard ahora incluye una nueva sección **"🏆 Comparación de Modelos"** que muestra:
+- Tabla comparativa de los 5 modelos entrenados
+- Gráficos de comparación de métricas (ROC-AUC, F1, Precision, Recall)
+- Análisis de tiempo de entrenamiento
+- Matriz de confusión del mejor modelo
+- Análisis de eficiencia (performance vs velocidad)
 
 ## 🔧 Solución de problemas
 

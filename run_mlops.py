@@ -77,11 +77,18 @@ def main():
         print("[OK] Datos ya procesados - Saltando este paso...")
         print(f"     Encontrados: {len(data_files)} archivos necesarios")
     
-    # 2. Entrenamiento del modelo
-    print_header("PASO 2: Entrenamiento del Modelo")
+    # 2. Entrenamiento de múltiples modelos
+    print_header("PASO 2: Entrenamiento de Multiples Modelos")
+    print("[INFO] Se entrenaran 5 modelos diferentes:")
+    print("        - Logistic Regression")
+    print("        - Random Forest") 
+    print("        - XGBoost")
+    print("        - LightGBM")
+    print("        - Gradient Boosting")
+    print("")
     success = run_command(
-        "Entrenando modelo XGBoost",
-        "python run_full_pipeline_simple.py",
+        "Entrenando y comparando modelos",
+        "python train_multiple_models.py",
         cwd=src_dir
     )
     if not success:

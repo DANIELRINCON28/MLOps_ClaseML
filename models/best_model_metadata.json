@@ -1,0 +1,14 @@
+{
+    "model_name": "Random_Forest",
+    "metrics": {
+        "accuracy": 0.9999750006249843,
+        "precision": 1.0,
+        "recall": 0.9807692307692307,
+        "f1_score": 0.9902912621359223,
+        "roc_auc": 0.9999990372340117,
+        "pr_auc": 0.9992877492877492
+    },
+    "training_time": 2.672233,
+    "trained_on": "2025-11-06 14:05:49",
+    "description": "Ensemble de arboles de decision"
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": "2025-11-06T14:05:52.566155",
+    "level": "INFO",
+    "message": "📊 Resumen: 0/32 variables con drift detectado",
+    "total_variables": 32,
+    "drift_detected": 0,
+    "high_severity": 0,
+    "medium_severity": 0,
+    "recommendation": "Revisar dashboard de monitoreo para más detalles"
+  }
+]

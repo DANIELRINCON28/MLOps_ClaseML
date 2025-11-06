@@ -1,0 +1,112 @@
+{
+    "Logistic_Regression": {
+        "metrics": {
+            "accuracy": 0.9869003274918127,
+            "precision": 0.09027777777777778,
+            "recall": 1.0,
+            "f1_score": 0.16560509554140126,
+            "roc_auc": 0.9994786622174042,
+            "pr_auc": 0.8387855179182991
+        },
+        "confusion_matrix": [
+            [
+                39425,
+                524
+            ],
+            [
+                0,
+                52
+            ]
+        ],
+        "training_time": 14.506991,
+        "description": "Modelo lineal simple y rapido"
+    },
+    "Random_Forest": {
+        "metrics": {
+            "accuracy": 0.9999750006249843,
+            "precision": 1.0,
+            "recall": 0.9807692307692307,
+            "f1_score": 0.9902912621359223,
+            "roc_auc": 0.9999990372340117,
+            "pr_auc": 0.9992877492877492
+        },
+        "confusion_matrix": [
+            [
+                39949,
+                0
+            ],
+            [
+                1,
+                51
+            ]
+        ],
+        "training_time": 2.672233,
+        "description": "Ensemble de arboles de decision"
+    },
+    "XGBoost": {
+        "metrics": {
+            "accuracy": 0.9999750006249843,
+            "precision": 1.0,
+            "recall": 0.9807692307692307,
+            "f1_score": 0.9902912621359223,
+            "roc_auc": 0.9999894095741301,
+            "pr_auc": 0.9942827442827442
+        },
+        "confusion_matrix": [
+            [
+                39949,
+                0
+            ],
+            [
+                1,
+                51
+            ]
+        ],
+        "training_time": 1.043407,
+        "description": "Gradient Boosting optimizado (XGBoost)"
+    },
+    "LightGBM": {
+        "metrics": {
+            "accuracy": 0.9999750006249843,
+            "precision": 1.0,
+            "recall": 0.9807692307692307,
+            "f1_score": 0.9902912621359223,
+            "roc_auc": 0.9808770605599061,
+            "pr_auc": 0.9807943709256026
+        },
+        "confusion_matrix": [
+            [
+                39949,
+                0
+            ],
+            [
+                1,
+                51
+            ]
+        ],
+        "training_time": 0.82254,
+        "description": "Gradient Boosting ligero y rapido (LightGBM)"
+    },
+    "Gradient_Boosting": {
+        "metrics": {
+            "accuracy": 0.9999750006249843,
+            "precision": 1.0,
+            "recall": 0.9807692307692307,
+            "f1_score": 0.9902912621359223,
+            "roc_auc": 0.9999034827096855,
+            "pr_auc": 0.982991452991453
+        },
+        "confusion_matrix": [
+            [
+                39949,
+                0
+            ],
+            [
+                1,
+                51
+            ]
+        ],
+        "training_time": 79.043602,
+        "description": "Gradient Boosting clasico (sklearn)"
+    }
+}

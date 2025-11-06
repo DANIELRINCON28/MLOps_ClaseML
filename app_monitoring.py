@@ -746,6 +746,11 @@ def main():
             st.session_state.current_page = "Tabla de Datos"
             st.rerun()
         
+        if st.button("🏆 Comparación de Modelos", use_container_width=True,
+                    type="primary" if st.session_state.current_page == "Comparación de Modelos" else "secondary"):
+            st.session_state.current_page = "Comparación de Modelos"
+            st.rerun()
+        
         page = st.session_state.current_page
         
         st.markdown("---")
@@ -1222,6 +1227,315 @@ def main():
                     st.warning("No hay alertas disponibles")
         else:
             st.warning("No hay datos disponibles")
+    
+    # PÁGINA: Comparación de Modelos
+    elif page == "Comparación de Modelos":
+        st.header("🏆 Comparación de Modelos Entrenados")
+        
+        # Cargar resultados de comparación
+        comparison_path = "outputs/model_comparison.csv"
+        results_path = "outputs/all_models_results.json"
+        metadata_path = "models/best_model_metadata.json"
+        
+        if Path(comparison_path).exists():
+            # Cargar datos
+            df_comparison = pd.read_csv(comparison_path)
+            
+            # Banner del mejor modelo
+            if Path(metadata_path).exists():
+                with open(metadata_path, 'r') as f:
+                    best_metadata = json.load(f)
+                
+                st.markdown(f"""
+                <div style='background: linear-gradient(135deg, #28A745 0%, #20C997 100%); 
+                            padding: 30px; 
+                            border-radius: 15px;
+                            box-shadow: 0 8px 20px rgba(40,167,69,0.3);
+                            margin-bottom: 30px;
+                            text-align: center;'>
+                    <h2 style='color: white !important; 
+                               margin: 0; 
+                               font-size: 32px;
+                               text-shadow: 2px 2px 4px rgba(0,0,0,0.2);'>
+                        🥇 Mejor Modelo: {best_metadata['model_name']}
+                    </h2>
+                    <p style='color: white !important; 
+                              font-size: 18px; 
+                              margin: 10px 0 0 0;
+                              opacity: 0.95;'>
+                        ROC-AUC: {best_metadata['metrics']['roc_auc']:.4f} | 
+                        F1-Score: {best_metadata['metrics']['f1_score']:.4f} | 
+                        Precision: {best_metadata['metrics']['precision']:.4f} | 
+                        Recall: {best_metadata['metrics']['recall']:.4f}
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            # Métricas en columnas
+            st.subheader("📊 Comparación de Métricas Principales")
+            
+            col1, col2, col3, col4 = st.columns(4)
+            
+            # Ordenar por ROC-AUC
+            df_sorted = df_comparison.sort_values('roc_auc', ascending=False)
+            
+            with col1:
+                st.metric(
+                    label="🎯 Mejor ROC-AUC",
+                    value=f"{df_sorted.iloc[0]['roc_auc']:.4f}",
+                    delta=f"{df_sorted.iloc[0]['Model']}"
+                )
+            
+            with col2:
+                best_f1 = df_sorted.sort_values('f1_score', ascending=False).iloc[0]
+                st.metric(
+                    label="📈 Mejor F1-Score",
+                    value=f"{best_f1['f1_score']:.4f}",
+                    delta=f"{best_f1['Model']}"
+                )
+            
+            with col3:
+                best_precision = df_sorted.sort_values('precision', ascending=False).iloc[0]
+                st.metric(
+                    label="🎯 Mejor Precision",
+                    value=f"{best_precision['precision']:.4f}",
+                    delta=f"{best_precision['Model']}"
+                )
+            
+            with col4:
+                best_recall = df_sorted.sort_values('recall', ascending=False).iloc[0]
+                st.metric(
+                    label="🔍 Mejor Recall",
+                    value=f"{best_recall['recall']:.4f}",
+                    delta=f"{best_recall['Model']}"
+                )
+            
+            st.markdown("---")
+            
+            # Tabla comparativa
+            st.subheader("📋 Tabla Comparativa de Todos los Modelos")
+            
+            # Formatear tabla para mejor visualización
+            df_display = df_comparison.copy()
+            df_display = df_display.sort_values('roc_auc', ascending=False)
+            
+            # Resaltar mejor modelo
+            def highlight_best(s):
+                is_best = s == s.max()
+                return ['background-color: #D4EDDA; font-weight: bold' if v else '' for v in is_best]
+            
+            st.dataframe(
+                df_display.style.apply(highlight_best, subset=['roc_auc', 'f1_score', 'precision', 'recall']),
+                use_container_width=True,
+                height=300
+            )
+            
+            st.markdown("---")
+            
+            # Gráficos comparativos
+            st.subheader("📊 Visualización de Métricas")
+            
+            tab1, tab2, tab3 = st.tabs(["📊 Comparación General", "⏱️ Tiempo de Entrenamiento", "🎯 Detalle por Métrica"])
+            
+            with tab1:
+                # Gráfico de barras para todas las métricas
+                metrics_to_plot = ['roc_auc', 'pr_auc', 'f1_score', 'precision', 'recall', 'accuracy']
+                
+                fig = go.Figure()
+                
+                for metric in metrics_to_plot:
+                    fig.add_trace(go.Bar(
+                        name=metric.upper().replace('_', '-'),
+                        x=df_comparison['Model'],
+                        y=df_comparison[metric],
+                        text=df_comparison[metric].round(4),
+                        textposition='auto',
+                    ))
+                
+                fig.update_layout(
+                    title="Comparación de Todas las Métricas",
+                    xaxis_title="Modelo",
+                    yaxis_title="Score",
+                    barmode='group',
+                    height=500,
+                    template='plotly_white',
+                    hovermode='x unified'
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
+            
+            with tab2:
+                # Gráfico de tiempo de entrenamiento
+                fig_time = px.bar(
+                    df_comparison.sort_values('Training_Time'),
+                    x='Model',
+                    y='Training_Time',
+                    title='Tiempo de Entrenamiento por Modelo',
+                    labels={'Training_Time': 'Tiempo (segundos)', 'Model': 'Modelo'},
+                    color='Training_Time',
+                    color_continuous_scale='Viridis',
+                    text='Training_Time'
+                )
+                
+                fig_time.update_traces(texttemplate='%{text:.2f}s', textposition='outside')
+                fig_time.update_layout(height=500, template='plotly_white')
+                
+                st.plotly_chart(fig_time, use_container_width=True)
+                
+                # Análisis de eficiencia
+                st.markdown("### ⚡ Análisis de Eficiencia")
+                
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    fastest = df_comparison.loc[df_comparison['Training_Time'].idxmin()]
+                    st.success(f"""
+                    **Modelo Más Rápido:** {fastest['Model']}  
+                    **Tiempo:** {fastest['Training_Time']:.2f}s  
+                    **ROC-AUC:** {fastest['roc_auc']:.4f}
+                    """)
+                
+                with col2:
+                    # Mejor balance entre velocidad y performance
+                    df_comparison['efficiency_score'] = df_comparison['roc_auc'] / (df_comparison['Training_Time'] / 60)
+                    most_efficient = df_comparison.loc[df_comparison['efficiency_score'].idxmax()]
+                    st.info(f"""
+                    **Modelo Más Eficiente:** {most_efficient['Model']}  
+                    **ROC-AUC:** {most_efficient['roc_auc']:.4f}  
+                    **Tiempo:** {most_efficient['Training_Time']:.2f}s  
+                    **Ratio Eficiencia:** {most_efficient['efficiency_score']:.2f}
+                    """)
+            
+            with tab3:
+                # Gráficos individuales para cada métrica
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    # ROC-AUC
+                    fig_roc = px.bar(
+                        df_comparison.sort_values('roc_auc', ascending=False),
+                        x='Model',
+                        y='roc_auc',
+                        title='ROC-AUC Score',
+                        color='roc_auc',
+                        color_continuous_scale='Blues',
+                        text='roc_auc'
+                    )
+                    fig_roc.update_traces(texttemplate='%{text:.4f}', textposition='outside')
+                    fig_roc.update_layout(height=400, showlegend=False)
+                    st.plotly_chart(fig_roc, use_container_width=True)
+                    
+                    # Precision
+                    fig_prec = px.bar(
+                        df_comparison.sort_values('precision', ascending=False),
+                        x='Model',
+                        y='precision',
+                        title='Precision',
+                        color='precision',
+                        color_continuous_scale='Greens',
+                        text='precision'
+                    )
+                    fig_prec.update_traces(texttemplate='%{text:.4f}', textposition='outside')
+                    fig_prec.update_layout(height=400, showlegend=False)
+                    st.plotly_chart(fig_prec, use_container_width=True)
+                
+                with col2:
+                    # F1-Score
+                    fig_f1 = px.bar(
+                        df_comparison.sort_values('f1_score', ascending=False),
+                        x='Model',
+                        y='f1_score',
+                        title='F1-Score',
+                        color='f1_score',
+                        color_continuous_scale='Oranges',
+                        text='f1_score'
+                    )
+                    fig_f1.update_traces(texttemplate='%{text:.4f}', textposition='outside')
+                    fig_f1.update_layout(height=400, showlegend=False)
+                    st.plotly_chart(fig_f1, use_container_width=True)
+                    
+                    # Recall
+                    fig_rec = px.bar(
+                        df_comparison.sort_values('recall', ascending=False),
+                        x='Model',
+                        y='recall',
+                        title='Recall',
+                        color='recall',
+                        color_continuous_scale='Purples',
+                        text='recall'
+                    )
+                    fig_rec.update_traces(texttemplate='%{text:.4f}', textposition='outside')
+                    fig_rec.update_layout(height=400, showlegend=False)
+                    st.plotly_chart(fig_rec, use_container_width=True)
+            
+            st.markdown("---")
+            
+            # Matriz de confusión del mejor modelo
+            if Path(results_path).exists():
+                with open(results_path, 'r') as f:
+                    all_results = json.load(f)
+                
+                st.subheader("🎯 Matriz de Confusión del Mejor Modelo")
+                
+                best_model_name = df_sorted.iloc[0]['Model']
+                if best_model_name in all_results:
+                    cm = np.array(all_results[best_model_name]['confusion_matrix'])
+                    
+                    # Crear heatmap de matriz de confusión
+                    fig_cm = go.Figure(data=go.Heatmap(
+                        z=cm,
+                        x=['Predicho: No Fraude', 'Predicho: Fraude'],
+                        y=['Real: No Fraude', 'Real: Fraude'],
+                        colorscale='Blues',
+                        text=cm,
+                        texttemplate='%{text}',
+                        textfont={"size": 20},
+                        hoverongaps=False
+                    ))
+                    
+                    fig_cm.update_layout(
+                        title=f'Matriz de Confusión - {best_model_name}',
+                        height=500,
+                        template='plotly_white'
+                    )
+                    
+                    st.plotly_chart(fig_cm, use_container_width=True)
+                    
+                    # Interpretación
+                    col1, col2, col3, col4 = st.columns(4)
+                    
+                    with col1:
+                        st.metric("✅ Verdaderos Negativos", f"{cm[0,0]:,}")
+                    with col2:
+                        st.metric("❌ Falsos Positivos", f"{cm[0,1]:,}")
+                    with col3:
+                        st.metric("❌ Falsos Negativos", f"{cm[1,0]:,}")
+                    with col4:
+                        st.metric("✅ Verdaderos Positivos", f"{cm[1,1]:,}")
+            
+            # Descarga de resultados
+            st.markdown("---")
+            st.subheader("📥 Descargar Resultados")
+            
+            csv = df_comparison.to_csv(index=False)
+            st.download_button(
+                label="📥 Descargar Tabla de Comparación (CSV)",
+                data=csv,
+                file_name=f"model_comparison_{datetime.now().strftime('%Y%m%d')}.csv",
+                mime="text/csv"
+            )
+            
+        else:
+            st.warning("""
+            ⚠️ No se encontraron resultados de comparación de modelos.  
+            
+            Para generar estos resultados, ejecuta:
+            ```bash
+            python run_mlops.py
+            ```
+            
+            Esto entrenará 5 modelos diferentes y generará la comparación completa.
+            """)
     
     # Footer
     st.markdown("---")
