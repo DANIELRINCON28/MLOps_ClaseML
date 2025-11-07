@@ -18,7 +18,7 @@
                 52
             ]
         ],
-        "training_time": 11.857967,
+        "training_time": 31.349153,
         "description": "Modelo lineal simple y rapido"
     },
     "Random_Forest": {
@@ -40,7 +40,7 @@
                 51
             ]
         ],
-        "training_time": 2.042486,
+        "training_time": 6.829389,
         "description": "Ensemble de arboles de decision"
     },
     "XGBoost": {
@@ -49,8 +49,8 @@
             "precision": 1.0,
             "recall": 0.9807692307692307,
             "f1_score": 0.9902912621359223,
-            "roc_auc": 0.9999894095741301,
-            "pr_auc": 0.9942827442827442
+            "roc_auc": 0.9999879654251478,
+            "pr_auc": 0.9937562437562437
         },
         "confusion_matrix": [
             [
@@ -62,7 +62,7 @@
                 51
             ]
         ],
-        "training_time": 0.795991,
+        "training_time": 2.212182,
         "description": "Gradient Boosting optimizado (XGBoost)"
     },
     "LightGBM": {
@@ -84,7 +84,7 @@
                 51
             ]
         ],
-        "training_time": 0.642111,
+        "training_time": 1.304051,
         "description": "Gradient Boosting ligero y rapido (LightGBM)"
     },
     "Gradient_Boosting": {
@@ -106,7 +106,7 @@
                 51
             ]
         ],
-        "training_time": 69.922916,
+        "training_time": 145.508936,
         "description": "Gradient Boosting clasico (sklearn)"
     }
 }

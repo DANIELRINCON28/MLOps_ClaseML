@@ -135,16 +135,11 @@ exec(open('model_monitoring.py', encoding='utf-8').read())
     print("   - Metricas: models/model_metrics.pkl")
     print("   - Monitoreo: outputs/monitoring/")
     
-    # Opcion de abrir dashboard
-    if "--dashboard" in sys.argv or "-d" in sys.argv:
-        print_header("Iniciando Dashboard")
-        print("Abriendo Streamlit dashboard en http://localhost:8501")
-        print("Presiona Ctrl+C para detener el servidor\n")
-        subprocess.run("streamlit run app_monitoring.py", shell=True, cwd=base_dir)
-    else:
-        print("\nPara ver los resultados en el dashboard, ejecuta:")
-        print("   python run_mlops.py --dashboard")
-        print("   O: streamlit run app_monitoring.py")
+    # Abrir dashboard automáticamente
+    print_header("Iniciando Dashboard Interactivo")
+    print("Abriendo Streamlit dashboard en http://localhost:8501")
+    print("Presiona Ctrl+C para detener el servidor\n")
+    subprocess.run("streamlit run app_monitoring.py", shell=True, cwd=base_dir)
     
     print("\n" + "="*80 + "\n")
     return 0
