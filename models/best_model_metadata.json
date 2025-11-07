@@ -8,7 +8,7 @@
         "roc_auc": 0.9999990372340117,
         "pr_auc": 0.9992877492877492
     },
-    "training_time": 6.829389,
-    "trained_on": "2025-11-06 23:03:23",
+    "training_time": 6.203598,
+    "trained_on": "2025-11-07 07:10:29",
     "description": "Ensemble de arboles de decision"
 }

@@ -18,7 +18,7 @@
                 52
             ]
         ],
-        "training_time": 31.349153,
+        "training_time": 28.342813,
         "description": "Modelo lineal simple y rapido"
     },
     "Random_Forest": {
@@ -40,7 +40,7 @@
                 51
             ]
         ],
-        "training_time": 6.829389,
+        "training_time": 6.203598,
         "description": "Ensemble de arboles de decision"
     },
     "XGBoost": {
@@ -62,7 +62,7 @@
                 51
             ]
         ],
-        "training_time": 2.212182,
+        "training_time": 1.836363,
         "description": "Gradient Boosting optimizado (XGBoost)"
     },
     "LightGBM": {
@@ -84,7 +84,7 @@
                 51
             ]
         ],
-        "training_time": 1.304051,
+        "training_time": 1.529154,
         "description": "Gradient Boosting ligero y rapido (LightGBM)"
     },
     "Gradient_Boosting": {
@@ -106,7 +106,7 @@
                 51
             ]
         ],
-        "training_time": 145.508936,
+        "training_time": 138.324276,
         "description": "Gradient Boosting clasico (sklearn)"
     }
 }
