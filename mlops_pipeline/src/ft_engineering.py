@@ -78,6 +78,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import os
+from pathlib import Path
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, RobustScaler, OneHotEncoder, LabelEncoder
 from sklearn.impute import SimpleImputer
@@ -87,6 +88,9 @@ import warnings
 
 warnings.filterwarnings('ignore')
 
+# Obtener directorio raíz del proyecto
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
 
 class FraudFeatureEngineering:
     """
@@ -94,7 +98,7 @@ class FraudFeatureEngineering:
     del proyecto de detección de fraude.
     """
     
-    def __init__(self, data_path='../../data/processed/df_original.pkl'):
+    def __init__(self, data_path=None):
         """
         Inicializa el ingeniero de características.
         
@@ -103,6 +107,8 @@ class FraudFeatureEngineering:
         data_path : str
             Ruta al archivo de datos
         """
+        if data_path is None:
+            data_path = PROJECT_ROOT / 'data' / 'processed' / 'df_original.pkl'
         self.data_path = data_path
         self.df = None
         self.df_features = None
@@ -126,7 +132,7 @@ class FraudFeatureEngineering:
             print(f"✅ Datos cargados: {self.df.shape[0]:,} filas x {self.df.shape[1]} columnas")
         except:
             # Intentar desde CSV si pickle no existe
-            csv_path = '../../Base_datos.csv'
+            csv_path = PROJECT_ROOT / 'Base_datos.csv'
             self.df = pd.read_csv(csv_path)
             print(f"✅ Datos cargados desde CSV: {self.df.shape[0]:,} filas x {self.df.shape[1]} columnas")
         
@@ -512,11 +518,14 @@ class FraudFeatureEngineering:
         return feature_names
     
     
-    def save_artifacts(self, output_dir='../../data/processed'):
+    def save_artifacts(self, output_dir=None):
         """
         Guarda todos los artefactos.
         """
         print("\n💾 Guardando artefactos...")
+        
+        if output_dir is None:
+            output_dir = PROJECT_ROOT / 'data' / 'processed'
         
         os.makedirs(output_dir, exist_ok=True)
         

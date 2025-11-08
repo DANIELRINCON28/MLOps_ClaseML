@@ -30,10 +30,14 @@ import pandas as pd
 import numpy as np
 import pickle
 import os
+from pathlib import Path
 import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime
 import json
+
+# Obtener directorio raíz del proyecto
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 # Modelos
 from sklearn.linear_model import LogisticRegression
@@ -69,7 +73,7 @@ class ModelTrainingEvaluation:
     Clase para entrenar y evaluar múltiples modelos de ML.
     """
     
-    def __init__(self, data_dir='../../data/processed'):
+    def __init__(self, data_dir=None):
         """
         Inicializa el entrenador de modelos.
         
@@ -78,6 +82,8 @@ class ModelTrainingEvaluation:
         data_dir : str
             Directorio donde están los datos procesados
         """
+        if data_dir is None:
+            data_dir = PROJECT_ROOT / 'data' / 'processed'
         self.data_dir = data_dir
         self.X_train = None
         self.X_test = None
