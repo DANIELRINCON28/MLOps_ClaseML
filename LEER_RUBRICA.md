@@ -124,7 +124,7 @@ PROYECTO_ML/MLOps_ClaseML/
 
 #### ✅ Checklist Completo (19/19):
 
-**Archivo principal:** `mlops_pipeline/src/Comprension_eda.ipynb`
+**Archivo principal:** `mlops_pipeline/src/Comprension_eda_completo.ipynb`
 
 **Documentación completa:** `docs/CHECKLIST_EDA.md` (700+ líneas)
 
@@ -967,11 +967,6 @@ docker run -d -p 8000:8000 fraud-api
 | api/README.md | Documentación API (600+ líneas) | `api/` |
 
 ---
-
-**Última actualización:** Noviembre 2024  
-**Versión del proyecto:** 1.0.0  
-**Evaluador:** [Nombre del evaluador]  
-**Fecha de evaluación:** [___/___/2024]
 
 ---
 
