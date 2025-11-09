@@ -23,6 +23,9 @@ from scipy.stats import chi2_contingency
 import warnings
 warnings.filterwarnings('ignore')
 
+# Obtener directorio raíz del proyecto
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
 class DataDriftMonitor:
     """
     Clase para monitorear data drift en datos de producción
@@ -57,15 +60,17 @@ class DataDriftMonitor:
         """Carga los datos de referencia (entrenamiento)"""
         print("📂 Cargando datos de referencia...")
         
-        # Cargar datos procesados de entrenamiento
-        with open('../../data/processed/X_train.pkl', 'rb') as f:
+        # Cargar datos procesados de entrenamiento usando rutas absolutas
+        data_dir = PROJECT_ROOT / 'data' / 'processed'
+        
+        with open(data_dir / 'X_train.pkl', 'rb') as f:
             self.X_reference = pickle.load(f)
         
-        with open('../../data/processed/y_train.pkl', 'rb') as f:
+        with open(data_dir / 'y_train.pkl', 'rb') as f:
             self.y_reference = pickle.load(f)
         
         # Cargar datos originales para comparación
-        with open('../../data/processed/df_features_complete.pkl', 'rb') as f:
+        with open(data_dir / 'df_features_complete.pkl', 'rb') as f:
             self.df_reference = pickle.load(f)
         
         print(f"✅ Datos de referencia cargados: {self.X_reference.shape}")

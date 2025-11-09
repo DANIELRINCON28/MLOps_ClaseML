@@ -498,6 +498,10 @@ class FraudFeatureEngineering:
             index=self.X_test.index
         )
         
+        # Actualizar X_train y X_test con los datos procesados
+        self.X_train = X_train_processed_df
+        self.X_test = X_test_processed_df
+        
         return X_train_processed_df, X_test_processed_df
     
     

@@ -130,8 +130,12 @@ class ModelTrainingEvaluation:
         
         print(f"  Antes - Clase 0: {(self.y_train==0).sum():,}, Clase 1: {(self.y_train==1).sum():,}")
         
+        # Convertir a numpy array si es necesario
+        X_train_array = np.array(self.X_train) if hasattr(self.X_train, 'values') else self.X_train
+        y_train_array = np.array(self.y_train).ravel() if hasattr(self.y_train, 'values') else self.y_train.ravel()
+        
         smote = SMOTE(sampling_strategy=sampling_strategy, random_state=42)
-        X_train_resampled, y_train_resampled = smote.fit_resample(self.X_train, self.y_train)
+        X_train_resampled, y_train_resampled = smote.fit_resample(X_train_array, y_train_array)
         
         self.X_train = X_train_resampled
         self.y_train = y_train_resampled
@@ -320,11 +324,13 @@ class ModelTrainingEvaluation:
         
         print("\n📋 TABLA DE COMPARACIÓN DE MODELOS:")
         print("=" * 80)
-        display(df_comparison)
+        print(df_comparison.to_string(index=False))
         
         # Guardar tabla
-        df_comparison.to_csv('../../outputs/model_comparison.csv', index=False)
-        print("\n✅ Tabla guardada en outputs/model_comparison.csv")
+        output_dir = PROJECT_ROOT / 'outputs'
+        output_dir.mkdir(exist_ok=True)
+        df_comparison.to_csv(output_dir / 'model_comparison.csv', index=False)
+        print(f"\n✅ Tabla guardada en {output_dir}/model_comparison.csv")
         
         # Visualizaciones
         self._plot_metrics_comparison(df_comparison)
@@ -572,7 +578,7 @@ def summarize_classification(results_dict):
     df_summary = pd.DataFrame(summary_data)
     df_summary = df_summary.sort_values('ROC-AUC', ascending=False)
     
-    display(df_summary)
+    print(df_summary.to_string(index=False))
     
     return df_summary
 
