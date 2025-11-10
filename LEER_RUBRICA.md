@@ -1,7 +1,7 @@
 # 📋 GUÍA DE EVALUACIÓN - RÚBRICA DEL PROYECTO
 
 > **Proyecto:** MLOps - Sistema de Detección de Fraude en Transacciones Financieras  
-> **Autor:** Daniel Rincón  
+> **Autor:** Daniel Alejandro Rincón Valencia 
 > **Fecha:** Noviembre 2024  
 > **Repositorio:** MLOps_ClaseML
 

@@ -28,7 +28,7 @@ jobs:
     
     - name: Run tests with coverage
       run: |
-        pytest tests/ -v --cov=mlops_pipeline/src --cov-report=xml --cov-report=term
+        pytest tests/ -v --cov=mlops_pipeline/src --cov-report=xml --cov-report=term -c config/pytest.ini
     
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
@@ -38,6 +38,10 @@ jobs:
     
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
+      with:
+        projectBaseDir: .
+        args: >
+          -Dproject.settings=config/sonar-project.properties
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
