@@ -25,6 +25,7 @@ plotly>=5.17.0
 # API
 fastapi>=0.104.0
 uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6  # Necesario para manejar archivos (File uploads)
 
 # Dashboard
 streamlit>=1.28.0

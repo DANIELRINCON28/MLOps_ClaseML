@@ -1,11 +1,9 @@
-version: '3.8'
-
 services:
   # API de Detección de Fraude
   fraud-detection-api:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: config/Dockerfile
     image: fraud-detection-api:latest
     container_name: fraud-api
     ports:

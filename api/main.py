@@ -207,7 +207,7 @@ class ModelLoader:
         self.model_metadata = None
         self.model_loaded = False
         
-    def load_model(self, model_path: str = '../models/best_model.pkl'):
+    def load_model(self, model_path: str = 'models/best_model.pkl'):
         """
         Carga el modelo entrenado.
         
@@ -231,7 +231,7 @@ class ModelLoader:
             logger.error(f"Error cargando modelo: {e}")
             raise
     
-    def load_preprocessor(self, preprocessor_path: str = '../data/processed/preprocessor.pkl'):
+    def load_preprocessor(self, preprocessor_path: str = 'data/processed/preprocessor.pkl'):
         """
         Carga el preprocesador.
         
@@ -255,7 +255,7 @@ class ModelLoader:
             logger.error(f"Error cargando preprocesador: {e}")
             raise
     
-    def load_metadata(self, metadata_path: str = '../models/best_model_metadata.json'):
+    def load_metadata(self, metadata_path: str = 'models/best_model_metadata.json'):
         """
         Carga la metadata del modelo.
         
