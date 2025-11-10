@@ -18,19 +18,19 @@ PROYECTO_ML/
 ```
 mlops_pipeline/
 ├── README.md                   # Documentación del pipeline
-├── src/                        # 🐍 Código fuente Python
-│   ├── ft_engineering.py       # Ingeniería de características
-│   ├── model_training_evaluation.py  # Entrenamiento y evaluación
-│   ├── model_monitoring.py     # Monitoreo de modelos
-│   ├── run_full_pipeline.py    # Pipeline completo
-│   ├── run_full_pipeline_simple.py
-│   ├── train_multiple_models.py
-│   ├── app_monitoring.py       # App Streamlit de monitoreo
-│   ├── ejecutar_proyecto.py
-│   └── run_mlops.py
-│
-└── notebooks/                  # 📓 Jupyter Notebooks
-    ├── Cargar_datos.ipynb
+└── src/                        # 🐍 Todo el código (Python + Notebooks)
+    ├── ft_engineering.py       # Ingeniería de características
+    ├── model_training_evaluation.py  # Entrenamiento y evaluación
+    ├── model_monitoring.py     # Monitoreo de modelos
+    ├── run_full_pipeline.py    # Pipeline completo
+    ├── run_full_pipeline_simple.py
+    ├── train_multiple_models.py
+    ├── app_monitoring.py       # App Streamlit de monitoreo
+    ├── ejecutar_proyecto.py
+    ├── run_mlops.py
+    ├── README.md               # Documentación de src/
+    │
+    ├── Cargar_datos.ipynb      # 📓 Notebooks Jupyter
     ├── Comprension_eda.ipynb
     ├── Comprension_eda_completo.ipynb
     ├── model_training.ipynb
@@ -180,11 +180,12 @@ docker-compose -f config/docker-compose.yml up
 ## 📝 Notas Importantes
 
 1. **main.py** es el punto de entrada principal del proyecto
-2. Los **notebooks** están en `mlops_pipeline/notebooks/` (solo para desarrollo)
-3. El **código productivo** está en `mlops_pipeline/src/`
-4. Todas las **configuraciones** están centralizadas en `config/`
-5. Los **scripts de ejecución** están en `scripts/`
-6. **39 tests unitarios** cubren todo el código (>80% coverage)
+2. Todo el código (Python + Notebooks) está en `mlops_pipeline/src/`
+3. El **código productivo** son los archivos `.py`
+4. Los **notebooks** (`.ipynb`) son para desarrollo y análisis
+5. Todas las **configuraciones** están centralizadas en `config/`
+6. Los **scripts de ejecución** están en `scripts/`
+7. **39 tests unitarios** cubren todo el código (>80% coverage)
 
 ## 🎯 Ventajas de esta Estructura
 
