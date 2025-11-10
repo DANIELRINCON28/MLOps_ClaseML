@@ -1,5 +1,5 @@
 {
-    "timestamp": "2025-11-10 00:49:24",
+    "timestamp": "2025-11-10 14:34:57",
     "best_model": "Random_Forest",
     "models_evaluated": [
         "Logistic_Regression",
@@ -18,7 +18,7 @@
                 "roc_auc": 0.9994786622174042,
                 "pr_auc": 0.8387855179182991
             },
-            "training_time": 33.152937
+            "training_time": 29.38099
         },
         "Random_Forest": {
             "metrics": {
@@ -29,7 +29,7 @@
                 "roc_auc": 0.9999990372340117,
                 "pr_auc": 0.9992877492877492
             },
-            "training_time": 7.463941
+            "training_time": 6.5723
         },
         "XGBoost": {
             "metrics": {
@@ -40,7 +40,7 @@
                 "roc_auc": 0.9999441595726859,
                 "pr_auc": 0.9867216117216117
             },
-            "training_time": 1.711642
+            "training_time": 1.575189
         },
         "LightGBM": {
             "metrics": {
@@ -51,7 +51,7 @@
                 "roc_auc": 0.9814917866433548,
                 "pr_auc": 0.9807952047952049
             },
-            "training_time": 1.653651
+            "training_time": 1.46829
         },
         "Gradient_Boosting": {
             "metrics": {
@@ -62,7 +62,7 @@
                 "roc_auc": 0.9999034827096855,
                 "pr_auc": 0.982991452991453
             },
-            "training_time": 147.732186
+            "training_time": 139.960295
         }
     }
 }
