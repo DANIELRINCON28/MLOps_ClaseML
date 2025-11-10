@@ -28,36 +28,60 @@ PROYECTO_ML/MLOps_ClaseML/
 │
 ├── data/                        # DATOS
 │   └── processed/               # Datasets procesados
+│       ├── X_train.pkl
+│       ├── X_test.pkl
+│       ├── y_train.pkl
+│       ├── y_test.pkl
+│       └── preprocessor.pkl
 │
 ├── models/                      # MODELOS ENTRENADOS
-│   ├── best_model.pkl           # [ITEM 4] Mejor modelo
+│   ├── best_model.pkl           # [ITEM 4] Mejor modelo (Random Forest)
 │   └── best_model_metadata.json # Métricas y configuración
 │
 ├── outputs/                     # RESULTADOS
 │   ├── all_models_results.json  # [ITEM 4] Comparación de modelos
 │   ├── model_comparison.csv     # [ITEM 4] Tabla comparativa
+│   ├── metrics_comparison.png   # Gráficos de métricas
+│   ├── roc_curves.png           # Curvas ROC
+│   ├── pr_curves.png            # Curvas Precision-Recall
+│   ├── confusion_matrices.png   # Matrices de confusión
 │   └── monitoring/              # [ITEM 5] Alertas y drift
+│       ├── alerts_*.json
+│       ├── drift_results_*.csv
+│       ├── predictions_*.csv
+│       └── latest_summary.json
 │
 ├── docs/                        # 📚 DOCUMENTACIÓN
-│   ├── CHECKLIST_EDA.md                     # [ITEM 2] Verificación EDA
-│   ├── CHECKLIST_FEATURE_ENGINEERING.md     # [ITEM 3] Verificación FE
-│   ├── CHECKLIST_MODEL_TRAINING.md          # [ITEM 4] Verificación Modelos
-│   ├── CHECKLIST_DATA_MONITORING.md         # [ITEM 5] Verificación Monitoring
-│   ├── CHECKLIST_DEPLOYMENT.md              # [ITEM 6] Verificación Despliegue
-│   └── DOCKER_GUIDE.md                      # Guía completa de Docker
+│   ├── contexto.md
+│   ├── EJECUCION_RAPIDA.md
+│   ├── INDEX.md
+│   ├── INSIGHTS.md
+│   ├── QUICK_START_MONITORING.md
+│   ├── README_COMPLETO.md
+│   ├── README_MONITOREO.md
+│   └── RESUMEN_EJECUTIVO.md
 │
 ├── scripts/                     # UTILIDADES
-│   ├── check_environment.py     # Verificar entorno
-│   └── test_docker.py           # Test de Docker
+│   ├── check_data.py            # Verificar datos
+│   └── check_environment.py     # Verificar entorno
+│
+├── config/                      # CONFIGURACIONES
+│   ├── Dockerfile               # [ITEM 6] Containerización
+│   ├── pytest.ini               # Configuración de pytest
+│   └── sonar-project.properties # [ITEM 7] SonarQube
+│
+├── tests/                       # 🧪 TESTS UNITARIOS (39 tests)
+│   ├── test_feature_engineering.py
+│   ├── test_model_training.py
+│   ├── test_monitoring.py
+│   └── test_utils.py
 │
 ├── Base_datos.csv               # Dataset original (200k transacciones)
 ├── requirements.txt             # [ITEM 1] Dependencias del proyecto
-├── Dockerfile                   # [ITEM 6] Containerización
-├── docker-compose.yml           # Orquestación de contenedores
-├── sonar-project.properties     # [ITEM 7] Configuración SonarQube
-├── app_monitoring.py            # [ITEM 5] Dashboard Streamlit
-├── run_all.ps1                  # Script de ejecución (Windows)
-├── run_all.sh                   # Script de ejecución (Unix)
+├── config.json                  # Configuración del proyecto
+├── sonar-project.properties     # [ITEM 7] Configuración SonarQube (raíz)
+├── app_monitoring.py            # [ITEM 5] Dashboard Streamlit (raíz)
+├── run_pipeline.ps1             # Script de ejecución automatizado
 ├── set_up.bat                   # [ITEM 1] Setup del entorno
 └── README.md                    # Documentación principal
 ```
@@ -713,7 +737,7 @@ streamlit run app_monitoring.py
   ```
 
 **6.6. ¿Dockerfile funcional?**
-- **Archivo:** `Dockerfile` (raíz del proyecto)
+- **Archivo:** `config/Dockerfile` (dentro de carpeta config)
 - **Características:**
   ```dockerfile
   FROM python:3.11-slim
@@ -725,48 +749,48 @@ streamlit run app_monitoring.py
   WORKDIR /app
   
   # Instalar dependencias
-  COPY api/requirements.txt .
+  COPY requirements.txt .
   RUN pip install --no-cache-dir -r requirements.txt
   
   # Copiar aplicación y modelo
-  COPY api/ ./api/
+  COPY mlops_pipeline/ ./mlops_pipeline/
   COPY models/ ./models/
   COPY data/processed/ ./data/processed/
+  COPY config.json .
+  COPY app_monitoring.py .
   
   # Usuario no-root (seguridad)
   RUN useradd -m -u 1000 apiuser
   USER apiuser
   
   # Puerto y healthcheck
-  EXPOSE 8000
+  EXPOSE 8501
   HEALTHCHECK --interval=30s --timeout=10s \
-      CMD curl -f http://localhost:8000/health || exit 1
+      CMD curl -f http://localhost:8501/_stcore/health || exit 1
   
   # Comando de inicio
-  CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+  CMD ["streamlit", "run", "app_monitoring.py", "--server.port=8501", "--server.address=0.0.0.0"]
   ```
 
 **Construcción y ejecución:**
 ```powershell
 # Construir imagen
-docker build -t fraud-detection-api:latest .
+docker build -f config/Dockerfile -t fraud-detection-mlops:latest .
 
 # Ejecutar contenedor
-docker run -d -p 8000:8000 --name fraud-api fraud-detection-api:latest
+docker run -d -p 8501:8501 --name fraud-mlops fraud-detection-mlops:latest
 
 # Verificar
-curl http://localhost:8000/health
+curl http://localhost:8501/_stcore/health
 ```
 
 **📁 Archivos de verificación:**
 - **API:** `api/main.py`
-- **Dockerfile:** `Dockerfile`
-- **Docker Compose:** `docker-compose.yml`
-- **Checklist:** `docs/CHECKLIST_DEPLOYMENT.md`
-- **Guía Docker:** `docs/DOCKER_GUIDE.md`
-- **Tests:** `api/test_api.py`
+- **Dockerfile:** `config/Dockerfile`
+- **Configuración SonarQube:** `sonar-project.properties` (raíz)
+- **Configuración SonarQube:** `config/sonar-project.properties` (duplicado)
 
-**Endpoints disponibles:**
+**Endpoints disponibles (si API está desplegada):**
 - `GET /` - Información de la API
 - `GET /health` - Health check
 - `GET /model/info` - Info del modelo
@@ -775,8 +799,9 @@ curl http://localhost:8000/health
 - `POST /predict/csv` - Predicción batch (CSV)
 - `GET /docs` - Documentación Swagger UI
 
-**Documentación interactiva:**
-- http://localhost:8000/docs
+**Dashboard Streamlit (actual):**
+- http://localhost:8501 (ejecutar con `.\run_pipeline.ps1`)
+- Dashboard de monitoreo con métricas, alertas y drift detection
 
 ---
 
@@ -862,59 +887,53 @@ sonar-scanner
 
 ## 🚀 EJECUCIÓN RÁPIDA DEL PROYECTO
 
-### Opción 1: Ejecución Local Completa
+### Opción 1: Ejecución Local Completa (RECOMENDADO)
 
 ```powershell
 # 1. Clonar repositorio
 git clone https://github.com/DANIELRINCON28/MLOps_ClaseML.git
 cd MLOps_ClaseML
 
-# 2. Ejecutar todo el pipeline (1 comando)
-.\run_all.ps1
+# 2. Configurar entorno virtual
+.\set_up.bat
+
+# 3. Ejecutar todo el pipeline (1 comando)
+.\run_pipeline.ps1
 
 # Resultado:
-# ✅ Entorno virtual creado y activado
+# ✅ Entorno virtual activado
 # ✅ Dependencias instaladas
-# ✅ Feature Engineering ejecutado
-# ✅ Model Training ejecutado
-# ✅ Monitoring ejecutado
-# ✅ Dashboard iniciado en http://localhost:8501
+# ✅ Feature Engineering ejecutado (160k train, 40k test)
+# ✅ SMOTE balancing aplicado (30% ratio)
+# ✅ 5 modelos entrenados (LR, RF, XGB, LGBM, GB)
+# ✅ Mejor modelo guardado (Random Forest 99.99%)
+# ✅ Dashboard Streamlit iniciado en http://localhost:8501
 ```
 
-### Opción 2: Solo API (Deployment)
-
-```powershell
-# Iniciar solo la API
-.\run_all.ps1 -ApiOnly
-
-# Acceder a:
-# http://localhost:8000/docs
-```
-
-### Opción 3: Docker (Portabilidad Total)
+### Opción 2: Docker (Portabilidad)
 
 ```powershell
 # Construir y ejecutar con Docker
-.\run_all.ps1 -Docker
+docker build -f config/Dockerfile -t fraud-mlops .
+docker run -d -p 8501:8501 fraud-mlops
 
-# O manualmente:
-docker build -t fraud-api .
-docker run -d -p 8000:8000 fraud-api
+# Acceder a:
+# http://localhost:8501
 ```
 
 ---
 
 ## 📊 TABLA RESUMEN DE VERIFICACIÓN
 
-| Ítem | Archivo Principal | Checklist | Estado |
-|------|------------------|-----------|--------|
+| Ítem | Archivo Principal | Documentación Adicional | Estado |
+|------|------------------|------------------------|--------|
 | 1. Estructura | Ver árbol de carpetas | README.md | ✅ 3/3 |
-| 2. EDA | `mlops_pipeline/src/Comprension_eda.ipynb` | `docs/CHECKLIST_EDA.md` | ✅ 19/19 |
-| 3. Feature Eng | `mlops_pipeline/src/ft_engineering.py` | `docs/CHECKLIST_FEATURE_ENGINEERING.md` | ✅ 7/7 |
-| 4. Training | `mlops_pipeline/src/model_training_evaluation.py` | `docs/CHECKLIST_MODEL_TRAINING.md` | ✅ 8/8 |
-| 5. Monitoring | `mlops_pipeline/src/model_monitoring.py` + `app_monitoring.py` | `docs/CHECKLIST_DATA_MONITORING.md` | ✅ 5/5 |
-| 6. Deployment | `api/main.py` + `Dockerfile` | `docs/CHECKLIST_DEPLOYMENT.md` | ✅ 6/6 |
-| 7. SonarQube | `sonar-project.properties` | N/A | ✅ 3/3 |
+| 2. EDA | `mlops_pipeline/src/Comprension_eda.ipynb` | `docs/` (contexto.md, INSIGHTS.md) | ✅ 19/19 |
+| 3. Feature Eng | `mlops_pipeline/src/ft_engineering.py` | `docs/` (README_COMPLETO.md) | ✅ 7/7 |
+| 4. Training | `mlops_pipeline/src/model_training_evaluation.py` | `outputs/model_comparison.csv` | ✅ 8/8 |
+| 5. Monitoring | `mlops_pipeline/src/model_monitoring.py` + `app_monitoring.py` | `docs/QUICK_START_MONITORING.md` | ✅ 5/5 |
+| 6. Deployment | `api/main.py` + `config/Dockerfile` | `docs/EJECUCION_RAPIDA.md` | ✅ 6/6 |
+| 7. SonarQube | `sonar-project.properties` (raíz y config/) | N/A | ✅ 3/3 |
 
 **TOTAL: 51/51 ítems completados (100%)**
 
@@ -957,14 +976,18 @@ docker run -d -p 8000:8000 fraud-api
 
 | Documento | Descripción | Ubicación |
 |-----------|-------------|-----------|
-| README.md | Documentación principal | Raíz |
-| CHECKLIST_EDA.md | Evaluación EDA (700+ líneas) | `docs/` |
-| CHECKLIST_FEATURE_ENGINEERING.md | Evaluación FE (500+ líneas) | `docs/` |
-| CHECKLIST_MODEL_TRAINING.md | Evaluación Training (700+ líneas) | `docs/` |
-| CHECKLIST_DATA_MONITORING.md | Evaluación Monitoring (1400+ líneas) | `docs/` |
-| CHECKLIST_DEPLOYMENT.md | Evaluación Deployment (1100+ líneas) | `docs/` |
-| DOCKER_GUIDE.md | Guía completa Docker (800+ líneas) | `docs/` |
-| api/README.md | Documentación API (600+ líneas) | `api/` |
+| README.md | Documentación principal del proyecto | Raíz |
+| LEER_RUBRICA.md | Esta guía de evaluación (51 ítems) | Raíz |
+| contexto.md | Contexto del proyecto y dataset | `docs/` |
+| EJECUCION_RAPIDA.md | Guía de ejecución rápida | `docs/` |
+| INDEX.md | Índice de documentación | `docs/` |
+| INSIGHTS.md | Insights del análisis EDA | `docs/` |
+| QUICK_START_MONITORING.md | Guía rápida de monitoreo | `docs/` |
+| README_COMPLETO.md | Documentación técnica completa | `docs/` |
+| README_MONITOREO.md | Documentación de sistema de monitoreo | `docs/` |
+| RESUMEN_EJECUTIVO.md | Resumen ejecutivo del proyecto | `docs/` |
+
+**Nota:** Los archivos CHECKLIST_*.md mencionados anteriormente han sido consolidados en la documentación actual ubicada en `docs/`.
 
 ---
 

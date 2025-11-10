@@ -89,6 +89,7 @@ class ModelTrainingEvaluation:
         self.X_test = None
         self.y_train = None
         self.y_test = None
+        self.feature_names = None  # Para guardar nombres de columnas
         self.models = {}
         self.results = {}
         self.best_model = None
@@ -107,6 +108,12 @@ class ModelTrainingEvaluation:
         self.X_test = pd.read_pickle(f'{self.data_dir}/X_test.pkl')
         self.y_train = pd.read_pickle(f'{self.data_dir}/y_train.pkl')
         self.y_test = pd.read_pickle(f'{self.data_dir}/y_test.pkl')
+        
+        # Guardar nombres de features antes de cualquier transformación
+        if hasattr(self.X_train, 'columns'):
+            self.feature_names = list(self.X_train.columns)
+        else:
+            self.feature_names = [f'feature_{i}' for i in range(self.X_train.shape[1])]
         
         print(f"✅ Datos cargados")
         print(f"  📊 X_train: {self.X_train.shape}")
@@ -343,7 +350,7 @@ class ModelTrainingEvaluation:
     
     def _plot_metrics_comparison(self, df_comparison):
         """Gráfico de barras comparando métricas."""
-        print("\n📊 Generando gráfico de comparación de métricas...")
+        # print("\n📊 Generando gráfico de comparación de métricas...")
         
         metrics_to_plot = ['accuracy', 'precision', 'recall', 'f1_score', 'roc_auc', 'pr_auc']
         
@@ -363,15 +370,17 @@ class ModelTrainingEvaluation:
                 axes[idx].text(v, i, f' {v:.4f}', va='center')
         
         plt.tight_layout()
-        plt.savefig('../../outputs/metrics_comparison.png', dpi=300, bbox_inches='tight')
-        plt.show()
+        output_path = PROJECT_ROOT / 'outputs' / 'metrics_comparison.png'
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        plt.close()  # Cerrar figura sin mostrar
         
-        print("✅ Gráfico guardado en outputs/metrics_comparison.png")
+        # print("✅ Gráfico guardado en outputs/metrics_comparison.png")
     
     
     def _plot_roc_curves(self):
         """Gráficos de curvas ROC."""
-        print("\n📊 Generando curvas ROC...")
+        # print("\n📊 Generando curvas ROC...")
         
         plt.figure(figsize=(12, 8))
         
@@ -389,15 +398,17 @@ class ModelTrainingEvaluation:
         plt.grid(True, alpha=0.3)
         
         plt.tight_layout()
-        plt.savefig('../../outputs/roc_curves.png', dpi=300, bbox_inches='tight')
-        plt.show()
+        output_path = PROJECT_ROOT / 'outputs' / 'roc_curves.png'
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        plt.close()  # Cerrar figura sin mostrar
         
-        print("✅ Curvas ROC guardadas en outputs/roc_curves.png")
+        # print("✅ Curvas ROC guardadas en outputs/roc_curves.png")
     
     
     def _plot_precision_recall_curves(self):
         """Gráficos de curvas Precision-Recall."""
-        print("\n📊 Generando curvas Precision-Recall...")
+        # print("\n📊 Generando curvas Precision-Recall...")
         
         plt.figure(figsize=(12, 8))
         
@@ -414,15 +425,17 @@ class ModelTrainingEvaluation:
         plt.grid(True, alpha=0.3)
         
         plt.tight_layout()
-        plt.savefig('../../outputs/pr_curves.png', dpi=300, bbox_inches='tight')
-        plt.show()
+        output_path = PROJECT_ROOT / 'outputs' / 'pr_curves.png'
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        plt.close()  # Cerrar figura sin mostrar
         
-        print("✅ Curvas PR guardadas en outputs/pr_curves.png")
+        # print("✅ Curvas PR guardadas en outputs/pr_curves.png")
     
     
     def _plot_confusion_matrices(self):
         """Matrices de confusión para cada modelo."""
-        print("\n📊 Generando matrices de confusión...")
+        # print("\n📊 Generando matrices de confusión...")
         
         n_models = len(self.results)
         n_cols = 3
@@ -447,10 +460,12 @@ class ModelTrainingEvaluation:
             axes[idx].axis('off')
         
         plt.tight_layout()
-        plt.savefig('../../outputs/confusion_matrices.png', dpi=300, bbox_inches='tight')
-        plt.show()
+        output_path = PROJECT_ROOT / 'outputs' / 'confusion_matrices.png'
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        plt.close()  # Cerrar figura sin mostrar
         
-        print("✅ Matrices de confusión guardadas en outputs/confusion_matrices.png")
+        # print("✅ Matrices de confusión guardadas en outputs/confusion_matrices.png")
     
     
     def select_best_model(self, criterion='roc_auc'):
@@ -505,7 +520,9 @@ class ModelTrainingEvaluation:
             }
         
         # Guardar como JSON
-        with open('../../outputs/evaluation_report.json', 'w') as f:
+        report_path = PROJECT_ROOT / 'outputs' / 'evaluation_report.json'
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(report_path, 'w') as f:
             json.dump(report, f, indent=4)
         
         print("✅ Reporte guardado en outputs/evaluation_report.json")
@@ -518,16 +535,21 @@ class ModelTrainingEvaluation:
         return report
     
     
-    def save_best_model(self, output_dir='../../models'):
+    def save_best_model(self, output_dir=None):
         """
         Guarda el mejor modelo.
         """
+        if output_dir is None:
+            output_dir = PROJECT_ROOT / 'models'
+        else:
+            output_dir = Path(output_dir)
+        
         print(f"\n💾 Guardando mejor modelo ({self.best_model_name})...")
         
-        os.makedirs(output_dir, exist_ok=True)
+        output_dir.mkdir(parents=True, exist_ok=True)
         
         # Guardar modelo
-        model_path = f'{output_dir}/best_model.pkl'
+        model_path = output_dir / 'best_model.pkl'
         with open(model_path, 'wb') as f:
             pickle.dump(self.best_model, f)
         
@@ -538,17 +560,17 @@ class ModelTrainingEvaluation:
             'metrics': self.results[self.best_model_name]['metrics'],
             'training_time': self.results[self.best_model_name]['training_time'],
             'trained_on': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            'features_used': list(self.X_train.columns)
+            'features_used': self.feature_names
         }
         
-        metadata_path = f'{output_dir}/best_model_metadata.json'
+        metadata_path = output_dir / 'best_model_metadata.json'
         with open(metadata_path, 'w') as f:
             json.dump(metadata, f, indent=4)
         
         print(f"✅ Modelo guardado en {model_path}")
         print(f"✅ Metadata guardado en {metadata_path}")
         
-        return model_path, metadata_path
+        return str(model_path), str(metadata_path)
 
 
 def summarize_classification(results_dict):

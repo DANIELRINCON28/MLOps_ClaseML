@@ -1,5 +1,6 @@
 {
     "model_name": "Random_Forest",
+    "model_type": "<class 'sklearn.ensemble._forest.RandomForestClassifier'>",
     "metrics": {
         "accuracy": 0.9999750006249843,
         "precision": 1.0,
@@ -8,7 +9,42 @@
         "roc_auc": 0.9999990372340117,
         "pr_auc": 0.9992877492877492
     },
-    "training_time": 6.203598,
-    "trained_on": "2025-11-07 07:10:29",
-    "description": "Ensemble de arboles de decision"
+    "training_time": 7.463941,
+    "trained_on": "2025-11-10 00:49:24",
+    "features_used": [
+        "step",
+        "amount",
+        "oldbalanceOrg",
+        "newbalanceOrig",
+        "oldbalanceDest",
+        "newbalanceDest",
+        "balance_diff_orig",
+        "balance_diff_dest",
+        "error_balance_orig",
+        "error_balance_dest",
+        "error_balance_total",
+        "orig_is_merchant",
+        "dest_is_merchant",
+        "orig_balance_zero_after",
+        "dest_balance_zero_after",
+        "orig_balance_zero_before",
+        "dest_balance_zero_before",
+        "amount_to_oldbalance_orig_ratio",
+        "amount_to_oldbalance_dest_ratio",
+        "balance_ratio_orig",
+        "balance_ratio_dest",
+        "hour_of_day",
+        "day_of_month",
+        "is_weekend",
+        "is_night",
+        "is_fraud_type",
+        "is_large_transaction",
+        "type_CASH_OUT",
+        "type_DEBIT",
+        "type_PAYMENT",
+        "type_TRANSFER",
+        "amount_category_medium",
+        "amount_category_small",
+        "amount_category_very_large"
+    ]
 }
