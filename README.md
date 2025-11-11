@@ -1,4 +1,5 @@
 ﻿<div align="center">
+# Si eres mi calificador, usa el "LEER_RUBRICA.md" para guiarte donde encontrar los requisitos
 
 #  Sistema de Detección de Fraude en Transacciones Financieras
 
@@ -9,7 +10,6 @@
 
 **Universidad Católica Luis Amigó** | Proyecto Final de Machine Learning
 
-# Si eres mi calificador, usa el "LEER_RUBRICA.md" para guiarte donde encontrar los requisitos
 
 *Sistema completo de MLOps para detección automática de fraude usando Machine Learning*
 
@@ -553,3 +553,4 @@ Se concede permiso para usar, copiar, modificar y distribuir este software...
 
 
 </div>
+
