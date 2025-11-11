@@ -19,6 +19,7 @@ import json
 from pathlib import Path
 from datetime import datetime
 import warnings
+from PIL import Image
 warnings.filterwarnings('ignore')
 
 # Configuración de la página
@@ -694,7 +695,7 @@ def main():
         """, unsafe_allow_html=True)
         
         st.image("https://www.ucatolicaluisamigo.edu.co/wp-content/uploads/2023/02/logo-universidad-catolica-luis-amigo.png", 
-                 use_container_width=True)
+                 use_column_width=True)
         
         st.markdown("</div>", unsafe_allow_html=True)
         
@@ -1142,43 +1143,67 @@ def main():
             with tabs[0]:
                 dist_images = [img for img in eda_images if 'distribucion' in img or 'categoricas' in img]
                 for img_path in dist_images:
-                    st.image(img_path, use_container_width=True)
-                    st.markdown("---")
+                    try:
+                        image = Image.open(img_path)
+                        st.image(image, use_column_width=True, caption=Path(img_path).name)
+                        st.markdown("---")
+                    except Exception as e:
+                        st.error(f"Error cargando imagen {img_path}: {e}")
             
             # Boxplots
             with tabs[1]:
                 box_images = [img for img in eda_images if 'boxplot' in img]
                 for img_path in box_images:
-                    st.image(img_path, use_container_width=True)
-                    st.markdown("---")
+                    try:
+                        image = Image.open(img_path)
+                        st.image(image, use_column_width=True, caption=Path(img_path).name)
+                        st.markdown("---")
+                    except Exception as e:
+                        st.error(f"Error cargando imagen {img_path}: {e}")
             
             # Correlaciones
             with tabs[2]:
                 corr_images = [img for img in eda_images if 'correlacion' in img]
                 for img_path in corr_images:
-                    st.image(img_path, use_container_width=True)
-                    st.markdown("---")
+                    try:
+                        image = Image.open(img_path)
+                        st.image(image, use_column_width=True, caption=Path(img_path).name)
+                        st.markdown("---")
+                    except Exception as e:
+                        st.error(f"Error cargando imagen {img_path}: {e}")
             
             # Fraude
             with tabs[3]:
                 fraud_images = [img for img in eda_images if 'fraude' in img and 'temporal' not in img]
                 for img_path in fraud_images:
-                    st.image(img_path, use_container_width=True)
-                    st.markdown("---")
+                    try:
+                        image = Image.open(img_path)
+                        st.image(image, use_column_width=True, caption=Path(img_path).name)
+                        st.markdown("---")
+                    except Exception as e:
+                        st.error(f"Error cargando imagen {img_path}: {e}")
             
             # Temporal
             with tabs[4]:
                 temp_images = [img for img in eda_images if 'temporal' in img]
                 for img_path in temp_images:
-                    st.image(img_path, use_container_width=True)
-                    st.markdown("---")
+                    try:
+                        image = Image.open(img_path)
+                        st.image(image, use_column_width=True, caption=Path(img_path).name)
+                        st.markdown("---")
+                    except Exception as e:
+                        st.error(f"Error cargando imagen {img_path}: {e}")
             
             # Multivariable
             with tabs[5]:
                 multi_images = [img for img in eda_images if 'pairplot' in img or 'multivariable' in img]
                 for img_path in multi_images:
-                    st.image(img_path, use_container_width=True)
-                    st.markdown("---")
+                    try:
+                        image = Image.open(img_path)
+                        st.image(image, use_column_width=True, caption=Path(img_path).name)
+                        st.markdown("---")
+                    except Exception as e:
+                        st.error(f"Error cargando imagen {img_path}: {e}")
         else:
             st.warning("No se encontraron gráficos del EDA. Ejecuta primero el notebook `Comprension_eda_completo.ipynb`")
     

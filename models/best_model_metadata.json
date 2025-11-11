@@ -9,8 +9,8 @@
         "roc_auc": 0.9999990372340117,
         "pr_auc": 0.9992877492877492
     },
-    "training_time": 9.648592,
-    "trained_on": "2025-11-10 15:48:18",
+    "training_time": 11.309207,
+    "trained_on": "2025-11-10 20:44:05",
     "features_used": [
         "step",
         "amount",
