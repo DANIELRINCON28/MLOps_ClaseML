@@ -1,5 +1,7 @@
 ﻿<div align="center">
-# Si eres mi calificador, usa el "LEER_RUBRICA.md" para guiarte donde encontrar los requisitos
+ 
+# ✅Si eres mi calificador, usa el "LEER_RUBRICA.md" para guiarte donde encontrar los requisitos✅
+
 
 #  Sistema de Detección de Fraude en Transacciones Financieras
 
@@ -553,4 +555,5 @@ Se concede permiso para usar, copiar, modificar y distribuir este software...
 
 
 </div>
+
 
