@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+MLOPS_FINAL-venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation (no necesaria en contenedor)
+docs/
+*.md
+README.md
+
+# Tests
+tests/
+*.test.py
+
+# Logs locales
+*.log
+logs/
+
+# Temporal files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Data files grandes (se montan como volúmenes)
+Base_datos.csv
+data/raw/
+
+# Scripts de ejecución local
+*.bat
+*.sh
+run_*.py
+ejecutar_*.py
+
+# Config files
+.env
+.env.local
+config.json
+
+# SonarQube
+sonar-project.properties
+.scannerwork/

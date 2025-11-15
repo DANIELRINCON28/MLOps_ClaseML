@@ -1,0 +1,13 @@
+{
+  "timestamp": "20251107_071034",
+  "total_variables": 32,
+  "drift_detected": 0,
+  "high_severity": 0,
+  "medium_severity": 0,
+  "low_severity": 32,
+  "predictions": {
+    "total": 60000,
+    "fraud_detected": 67,
+    "fraud_rate": 0.11166666666666666
+  }
+}

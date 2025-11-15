@@ -1,0 +1,75 @@
+# ============================================================================
+# Dockerfile para Dashboard Streamlit - Monitoreo de Data Drift
+# ============================================================================
+# Este Dockerfile crea una imagen Docker para el dashboard de visualización
+# de monitoreo del modelo de ML.
+#
+# Construcción:
+#   docker build -f Dockerfile.streamlit -t fraud-monitoring-dashboard .
+#
+# Ejecución:
+#   docker run -p 8501:8501 fraud-monitoring-dashboard
+#
+# Acceso:
+#   http://localhost:8501
+# ============================================================================
+
+# Imagen base - Python 3.11 slim (ligera)
+FROM python:3.11-slim
+
+# Metadata de la imagen
+LABEL maintainer="DANIEL ALEJANDRO RINCON VALENCIA"
+LABEL description="Dashboard de monitoreo de data drift para detección de fraude"
+LABEL version="1.0.0"
+LABEL university="Universidad Católica Luis Amigó"
+
+# Variables de entorno
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    STREAMLIT_SERVER_PORT=8501 \
+    STREAMLIT_SERVER_ADDRESS=0.0.0.0 \
+    STREAMLIT_SERVER_HEADLESS=true \
+    STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+
+# Directorio de trabajo
+WORKDIR /app
+
+# Instalar dependencias del sistema
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        curl \
+        && rm -rf /var/lib/apt/lists/*
+
+# Copiar requirements del dashboard
+COPY dashboard/requirements.txt .
+
+# Instalar dependencias de Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiar código del dashboard
+COPY mlops_pipeline/src/app_monitoring.py .
+
+# Copiar modelos y datos procesados (necesarios para visualización)
+COPY models/ ./models/
+COPY data/processed/ ./data/processed/
+COPY outputs/ ./outputs/
+
+# Crear directorio para logs
+RUN mkdir -p /app/logs
+
+# Exponer puerto de Streamlit
+EXPOSE 8501
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:8501/_stcore/health || exit 1
+
+# Comando de inicio
+CMD ["streamlit", "run", "app_monitoring.py", \
+     "--server.port=8501", \
+     "--server.address=0.0.0.0", \
+     "--server.headless=true", \
+     "--browser.gatherUsageStats=false"]

@@ -1,11 +1,39 @@
 # Entorno virtual
+MLOPS_FINAL-venv/
+*-venv/
 venv/
-.venv/
+env/
 
-# Python
+# Carpetas de datos y artefactos
+/data/
+/artifacts/
+
+# Archivos de datos brutos
+*.csv
+*.parquet
+
+# Excepción para tu archivo de estructura (si existe)
+!Base_datos.csv
+
+# Archivos de Jupyter/Python
+.ipynb_checkpoints/
 __pycache__/
 *.pyc
 
-# Jupyter
-.ipynb_checkpoints/
+# Archivos temporales y de testing
+.coverage
+coverage.xml
+.pytest_cache/
+*.pid
 
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Outputs y modelos (excepto metadata)
+outputs/monitoring/
+models/*.pkl
+models/*.joblib
+!models/best_model_metadata.json

@@ -1,0 +1,68 @@
+{
+    "timestamp": "2025-11-10 20:44:05",
+    "best_model": "Random_Forest",
+    "models_evaluated": [
+        "Logistic_Regression",
+        "Random_Forest",
+        "XGBoost",
+        "LightGBM",
+        "Gradient_Boosting"
+    ],
+    "results_summary": {
+        "Logistic_Regression": {
+            "metrics": {
+                "accuracy": 0.9869003274918127,
+                "precision": 0.09027777777777778,
+                "recall": 1.0,
+                "f1_score": 0.16560509554140126,
+                "roc_auc": 0.9994786622174042,
+                "pr_auc": 0.8387855179182991
+            },
+            "training_time": 49.585212
+        },
+        "Random_Forest": {
+            "metrics": {
+                "accuracy": 0.9999750006249843,
+                "precision": 1.0,
+                "recall": 0.9807692307692307,
+                "f1_score": 0.9902912621359223,
+                "roc_auc": 0.9999990372340117,
+                "pr_auc": 0.9992877492877492
+            },
+            "training_time": 11.309207
+        },
+        "XGBoost": {
+            "metrics": {
+                "accuracy": 0.9999750006249843,
+                "precision": 1.0,
+                "recall": 0.9807692307692307,
+                "f1_score": 0.9902912621359223,
+                "roc_auc": 0.9999441595726859,
+                "pr_auc": 0.9867216117216117
+            },
+            "training_time": 2.290835
+        },
+        "LightGBM": {
+            "metrics": {
+                "accuracy": 0.9999750006249843,
+                "precision": 1.0,
+                "recall": 0.9807692307692307,
+                "f1_score": 0.9902912621359223,
+                "roc_auc": 0.9814917866433548,
+                "pr_auc": 0.9807952047952049
+            },
+            "training_time": 1.975382
+        },
+        "Gradient_Boosting": {
+            "metrics": {
+                "accuracy": 0.9999750006249843,
+                "precision": 1.0,
+                "recall": 0.9807692307692307,
+                "f1_score": 0.9902912621359223,
+                "roc_auc": 0.9999034827096855,
+                "pr_auc": 0.982991452991453
+            },
+            "training_time": 160.30121
+        }
+    }
+}
